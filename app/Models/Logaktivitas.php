@@ -15,14 +15,18 @@ class Logaktivitas extends Model
         return $this->belongsTo(User::class);
     }
 
-    public static function catat($aksi, $deskripsi)
+    public static function catat($aksi, $deskripsi, $userId = null)
     {
-        return self::create([
-            'user_id'   => auth()->id(),
-            'peran'     => auth()->user()->role ?? 'guest',
-            'aksi'      => $aksi,
-            'deskripsi' => $deskripsi,
-            'alamat_ip' => request()->ip(),
-        ]);
+        try {
+            return self::create([
+                'user_id'   => $userId ?? auth()->id(),
+                'peran'     => auth()->user()->role ?? 'Guest/Registrant',
+                'aksi'      => $aksi,
+                'deskripsi' => $deskripsi,
+                'alamat_ip' => request()->ip(),
+            ]);
+        } catch (\Exception $e) {
+            return null;
+        }
     }
 }
