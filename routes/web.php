@@ -9,6 +9,7 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\PeminjamController;
 use App\Http\Controllers\PetugasController;
 use App\Http\Controllers\LogaktivitasController;
+use App\Http\Controllers\CetakLaporanController;
 
 Route::get('/', function () {
     if (auth()->check()) {
@@ -36,4 +37,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('petugas', PetugasController::class);
     Route::resource('datapeminjaman', DataPeminjamanController::class);
     Route::resource('logaktivitas', LogaktivitasController::class);
+    Route::resource('cetaklaporan', CetakLaporanController::class);
 });         

@@ -6,7 +6,7 @@
             <h1 class="text-2xl font-bold italic tracking-tight">Persetujuan Peminjaman</h1>
             <p class="text-sm text-slate-500 italic font-medium">Kelola permintaan dan verifikasi status peminjaman alat.</p>
         </div>
-        <a href="#"
+        <a href="<?php echo e(route('cetaklaporan.index')); ?>"
             class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-xl shadow-lg shadow-indigo-200 transition duration-200 flex items-center gap-2 font-semibold text-sm">
             <i class="fa-solid fa-print"></i> Cetak Laporan
         </a>
@@ -24,11 +24,17 @@
         <table class="w-full border-collapse">
             <thead class="bg-slate-50 border-b border-slate-200">
                 <tr>
-                    <th class="px-6 py-4 text-left text-xs font-black text-slate-500 uppercase tracking-widest">Peminjam & Alat</th>
-                    <th class="px-6 py-4 text-left text-xs font-black text-slate-500 uppercase tracking-widest">Kode Alat</th>
-                    <th class="px-6 py-4 text-center text-xs font-black text-slate-500 uppercase tracking-widest">Waktu Pinjam</th>
-                    <th class="px-6 py-4 text-center text-xs font-black text-slate-500 uppercase tracking-widest">Batas Kembali</th>
-                    <th class="px-6 py-4 text-center text-xs font-black text-indigo-600 uppercase tracking-widest bg-indigo-50/30">Real Time Kembali</th>
+                    <th class="px-6 py-4 text-left text-xs font-black text-slate-500 uppercase tracking-widest">Peminjam &
+                        Alat</th>
+                    <th class="px-6 py-4 text-left text-xs font-black text-slate-500 uppercase tracking-widest">Kode Alat
+                    </th>
+                    <th class="px-6 py-4 text-center text-xs font-black text-slate-500 uppercase tracking-widest">Waktu
+                        Pinjam</th>
+                    <th class="px-6 py-4 text-center text-xs font-black text-slate-500 uppercase tracking-widest">Batas
+                        Kembali</th>
+                    <th
+                        class="px-6 py-4 text-center text-xs font-black text-indigo-600 uppercase tracking-widest bg-indigo-50/30">
+                        Real Time Kembali</th>
                     <th class="px-6 py-4 text-center text-xs font-black text-slate-500 uppercase tracking-widest">Aksi</th>
                 </tr>
             </thead>
@@ -179,6 +185,44 @@
                     document.getElementById('jam-input-' + id).value = jamData;
                     document.getElementById('denda-input-' + id).value = result.value;
                     document.getElementById('form-kembali-' + id).submit();
+                }
+            });
+        }
+
+        function pilihTanggalCetak() {
+            Swal.fire({
+                title: '<span class="text-slate-800">Filter Tanggal Laporan</span>',
+                html: `
+        <div class="text-left space-y-4">
+            <p class="text-xs text-slate-500 mb-4">Pilih rentang tanggal peminjaman yang ingin dicetak.</p>
+            <div>
+                <label class="block text-xs font-black text-slate-400 uppercase mb-2">Dari Tanggal:</label>
+                <input type="date" id="tgl_mulai" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none font-bold text-slate-700">
+            </div>
+            <div>
+                <label class="block text-xs font-black text-slate-400 uppercase mb-2">Sampai Tanggal:</label>
+                <input type="date" id="tgl_selesai" class="w-full px-4 py-3 rounded-xl border border-slate-200 outline-none font-bold text-slate-700">
+            </div>
+        </div>`,
+                showCancelButton: true,
+                confirmButtonText: 'Proses Cetak',
+                confirmButtonColor: '#4f46e5',
+                preConfirm: () => {
+                    const mulai = document.getElementById('tgl_mulai').value;
+                    const selesai = document.getElementById('tgl_selesai').value;
+                    if (!mulai || !selesai) {
+                        Swal.showValidationMessage(`Kedua tanggal harus diisi!`);
+                    }
+                    return {
+                        mulai,
+                        selesai
+                    };
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const url =
+                        `<?php echo e(route('cetaklaporan.index')); ?>?start_date=${result.value.mulai}&end_date=${result.value.selesai}`;
+                    window.open(url, '_blank');
                 }
             });
         }

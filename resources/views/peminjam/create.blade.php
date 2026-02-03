@@ -83,18 +83,53 @@
                         </div>
                     </div>
                 </div>
-                  <button type="submit"
-            class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-3">
-            KONFIRMASI PINJAM ALAT
-            <i class="fa-solid fa-paper-plane text-sm"></i>
-        </button>
+                <button type="submit"
+                    class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-black py-4 rounded-2xl transition-all shadow-lg shadow-indigo-100 flex items-center justify-center gap-3">
+                    KONFIRMASI PINJAM ALAT
+                    <i class="fa-solid fa-paper-plane text-sm"></i>
+                </button>
         </div>
-
-      
         </form>
         </div>
     </main>
 
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    @if (session('warning'))
+        <script>
+            Swal.fire({
+                icon: 'error',
+                title: '<span class="text-slate-800">Gagal Meminjam</span>',
+                html: '<span class="text-slate-500 font-medium">{{ session('warning') }}</span>',
+                confirmButtonColor: '#e11d48',
+                confirmButtonText: 'Cari Alat Lain',
+                customClass: {
+                    popup: 'rounded-[24px]',
+                    confirmButton: 'rounded-xl px-6 py-2.5 text-sm font-bold'
+                }
+            });
+        </script>
+    @endif
+
+    @if (session('info'))
+        <script>
+            Swal.fire({
+                icon: 'info',
+                title: '<span class="text-slate-800">Antrean Pending</span>',
+                html: '<span class="text-slate-500 font-medium">{{ session('info') }}</span>',
+                confirmButtonColor: '#2563eb',
+                confirmButtonText: 'Lihat Status Saya',
+                customClass: {
+                    popup: 'rounded-[24px]',
+                    confirmButton: 'rounded-xl px-6 py-2.5 text-sm font-bold'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = "{{ route('peminjam.index') }}";
+                }
+            });
+        </script>
+    @endif
+
+</body>
 </html>

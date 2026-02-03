@@ -84,10 +84,10 @@
                             class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 mr-2 group-hover:bg-indigo-500/20 group-hover:text-indigo-400 transition-all">
                             <i class="fa-solid fa-check-to-slot text-sm"></i>
                         </div>
-                        <span class="font-medium">Setujui Peminjaman</span>
+                        <span class="font-medium">Data Peminjaman</span>
                     </a>
 
-                    <a href="#"
+                    <a href="{{route('cetaklaporan.index')}}"
                         class="group flex items-center p-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/50 transition-all duration-200">
                         <div
                             class="flex items-center justify-center w-8 h-8 rounded-lg bg-slate-800 mr-2 group-hover:bg-indigo-500/20 group-hover:text-indigo-400 transition-all">
